@@ -10,8 +10,7 @@ class PlaylistSongsService {
     const playlistQuery = `
         SELECT p.id id, p.name name FROM playlists p 
         LEFT JOIN users u ON p.owner = u.id
-        WHERE p.id = $1
-        `;
+        WHERE p.id = $1`;
     const playlistResultAsync = this._pool.query(playlistQuery, [id]);
 
     const songsQuery = `
@@ -29,7 +28,7 @@ class PlaylistSongsService {
       throw new NotFoundError('Playlist tidak ditemukan');
     }
 
-    return { ...playlistResult.rows[0], songs: songsResult.rows };
+    return { playlist: { ...playlistResult.rows[0], songs: songsResult.rows } };
   }
 }
 
